@@ -5,10 +5,11 @@ class BoxBreathing {
         this.phaseText = document.querySelector('.phase-text');
         this.countdownText = document.querySelector('.countdown-text');
         this.startStopBtn = document.getElementById('startStopBtn');
-        this.durationSelect = document.getElementById('duration');
+        this.durationButtons = document.querySelectorAll('.duration-btn');
         this.breathCountEl = document.getElementById('breathCount');
         this.practiceTimeEl = document.getElementById('practiceTime');
         this.streakEl = document.getElementById('streak');
+        this.currentDuration = 4;
         
         this.isRunning = false;
         this.isPaused = false;
@@ -39,12 +40,32 @@ class BoxBreathing {
     
     setupEventListeners() {
         this.startStopBtn.addEventListener('click', () => this.toggleBreathing());
-        this.durationSelect.addEventListener('change', () => {
-            if (this.isRunning) {
-                this.stop();
-                this.start();
+        
+        this.durationButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const newDuration = parseInt(e.target.dataset.duration);
+                this.setDuration(newDuration);
+            });
+        });
+    }
+    
+    setDuration(duration) {
+        this.currentDuration = duration;
+        
+        // ボタンのアクティブ状態を更新
+        this.durationButtons.forEach(btn => {
+            if (parseInt(btn.dataset.duration) === duration) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
             }
         });
+        
+        // 実行中の場合は再スタート
+        if (this.isRunning) {
+            this.stop();
+            this.start();
+        }
     }
     
     toggleBreathing() {
@@ -98,7 +119,7 @@ class BoxBreathing {
     animate() {
         if (!this.isRunning) return;
         
-        const duration = parseInt(this.durationSelect.value) * 1000;
+        const duration = this.currentDuration * 1000;
         const elapsed = Date.now() - this.phaseStartTime;
         const progress = Math.min(elapsed / duration, 1);
         
@@ -210,7 +231,102 @@ class BoxBreathing {
     }
 }
 
+// スクロールアニメーション機能
+class ScrollAnimations {
+    constructor() {
+        this.benefitsSection = document.querySelector('.benefits-section');
+        this.scrollIndicator = document.querySelector('.scroll-indicator');
+        this.scrollToTopBtn = document.querySelector('.scroll-to-top');
+        this.animateElements = document.querySelectorAll('[data-animate]');
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupIntersectionObserver();
+        this.setupScrollIndicator();
+        this.setupScrollToTop();
+        this.checkInitialVisibility();
+    }
+    
+    setupIntersectionObserver() {
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    
+                    // benefits-sectionが見えたらスクロールインジケーターを隠す
+                    if (entry.target.classList.contains('benefits-section')) {
+                        this.benefitsSection.classList.add('visible');
+                        this.scrollIndicator.classList.add('hidden');
+                    }
+                }
+            });
+        }, options);
+        
+        // benefits-sectionを監視
+        if (this.benefitsSection) {
+            observer.observe(this.benefitsSection);
+        }
+        
+        // 各アニメーション要素を監視
+        this.animateElements.forEach(element => {
+            observer.observe(element);
+        });
+    }
+    
+    setupScrollIndicator() {
+        if (!this.scrollIndicator) return;
+        
+        // スクロールインジケーターをクリックした時の動作
+        this.scrollIndicator.addEventListener('click', () => {
+            this.benefitsSection.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // スクロール位置に応じて表示/非表示
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const windowHeight = window.innerHeight;
+            
+            if (scrollPosition > windowHeight * 0.5) {
+                this.scrollIndicator.classList.add('hidden');
+            } else {
+                this.scrollIndicator.classList.remove('hidden');
+            }
+        });
+    }
+    
+    setupScrollToTop() {
+        if (!this.scrollToTopBtn) return;
+        
+        this.scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+    
+    checkInitialVisibility() {
+        // 初期表示時に既に見えている要素をアニメーション
+        const windowHeight = window.innerHeight;
+        
+        this.animateElements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            if (rect.top < windowHeight && rect.bottom > 0) {
+                setTimeout(() => {
+                    element.classList.add('animate-in');
+                }, 100);
+            }
+        });
+    }
+}
+
 // アプリケーション初期化
 document.addEventListener('DOMContentLoaded', () => {
     new BoxBreathing();
+    new ScrollAnimations();
 });
