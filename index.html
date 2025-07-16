@@ -9,19 +9,30 @@
     <meta property="og:title" content="Box Breathing - 4秒で変わる、心と体のリセット習慣" />
     <meta property="og:description" content="科学的に証明された4-4-4-4の呼吸法で、ストレスを軽減し、集中力を高める。いつでもどこでも実践できるシンプルな瞑想法。" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://あなたのドメイン.com/" />
-    <meta property="og:image" content="https://あなたのドメイン.com/breath.png" />
-    <meta property="og:image:width" content="1536" />
-    <meta property="og:image:height" content="1024" />
-    <meta property="og:image:alt" content="Box Breathing - 呼吸法アプリのビジュアル" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Box Breathing - ネオンブルーに光る呼吸リングと4秒のリズムを表すビジュアル" />
     <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="Box Breathing" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Box Breathing - 4秒で変わる、心と体のリセット習慣" />
     <meta name="twitter:description" content="科学的に証明された4-4-4-4の呼吸法で、ストレスを軽減し、集中力を高める。" />
-    <meta name="twitter:image" content="https://あなたのドメイン.com/breath.png" />
-    <meta name="twitter:image:alt" content="Box Breathing - 呼吸法アプリのビジュアル" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:image:alt" content="Box Breathing - ネオンブルーに光る呼吸リングと4秒のリズムを表すビジュアル" />
+    <meta name="twitter:creator" content="@ryuta_fit" />
+    
+    <!-- Additional Meta Tags -->
+    <meta name="description" content="Box Breathingは、Navy SEALsも実践する4-4-4-4の呼吸法アプリ。ストレス軽減、集中力向上、睡眠改善に効果的。美しいビジュアルと共に、いつでもどこでも瞑想習慣を。" />
+    <meta name="keywords" content="呼吸法,瞑想,ストレス解消,Box Breathing,4-4-4-4,リラクゼーション,マインドフルネス,自律神経" />
+    <meta name="author" content="RYUTA 高知の山奥" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="" />
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -375,5 +386,21 @@
     </footer>
     
     <script src="app.js"></script>
+    <script>
+        // OGP URLを動的に設定
+        (function() {
+            const currentUrl = window.location.href;
+            const baseUrl = currentUrl.substring(0, currentUrl.lastIndexOf('/') + 1);
+            
+            // og:url と canonical を設定
+            document.querySelector('meta[property="og:url"]').setAttribute('content', currentUrl);
+            document.querySelector('link[rel="canonical"]').setAttribute('href', currentUrl);
+            
+            // 画像URLを設定
+            const imageUrl = baseUrl + 'breath.png';
+            document.querySelector('meta[property="og:image"]').setAttribute('content', imageUrl);
+            document.querySelector('meta[name="twitter:image"]').setAttribute('content', imageUrl);
+        })();
+    </script>
 </body>
 </html>
