@@ -79,8 +79,9 @@ class BoxBreathing {
     start() {
         this.isRunning = true;
         this.isPaused = false;
-        this.startStopBtn.textContent = '停止';
+        this.startStopBtn.textContent = '';
         this.startStopBtn.classList.add('stop');
+        document.body.classList.add('breathing-active');
         
         if (!this.sessionStartTime) {
             this.sessionStartTime = Date.now();
@@ -99,8 +100,9 @@ class BoxBreathing {
         this.isRunning = false;
         this.isPaused = true;
         this.pausedTime = Date.now();
-        this.startStopBtn.textContent = '開始';
+        this.startStopBtn.textContent = '';
         this.startStopBtn.classList.remove('stop');
+        document.body.classList.remove('breathing-active');
         
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
@@ -129,14 +131,26 @@ class BoxBreathing {
         const easeProgress = this.easeInOutCubic(progress);
         const scale = currentPhaseData.startScale + (currentPhaseData.endScale - currentPhaseData.startScale) * easeProgress;
         
-        const radius = 70 * scale;
-        this.circle.setAttribute('r', radius);
+        const baseRadius = this.isRunning ? 70 : 60;
+        const radius = baseRadius * scale;
         
-        this.phaseText.textContent = currentPhaseData.name;
+        // パフォーマンス最適化: 変更がある場合のみDOM更新
+        const currentRadius = this.circle.getAttribute('r');
+        if (currentRadius !== radius.toString()) {
+            this.circle.setAttribute('r', radius);
+        }
+        
+        // テキスト更新の最適化
+        if (this.phaseText.textContent !== currentPhaseData.name) {
+            this.phaseText.textContent = currentPhaseData.name;
+        }
         
         // カウントダウン表示
         const remainingTime = Math.ceil(duration / 1000 - elapsed / 1000);
-        this.countdownText.textContent = Math.max(0, remainingTime);
+        const currentCountdown = this.countdownText.textContent;
+        if (currentCountdown !== remainingTime.toString()) {
+            this.countdownText.textContent = Math.max(0, remainingTime);
+        }
         
         if (progress >= 1) {
             this.currentPhase = (this.currentPhase + 1) % this.phases.length;

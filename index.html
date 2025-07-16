@@ -14,14 +14,14 @@
         
         <main>
             <div class="breathing-area">
-                <svg class="breathing-circle" viewBox="0 0 350 350">
+                <svg class="breathing-circle" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid meet">
                     <defs>
                         <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:1" />
                             <stop offset="100%" style="stop-color:#619bff;stop-opacity:1" />
                         </linearGradient>
                     </defs>
-                    <circle cx="175" cy="175" r="70" fill="none" stroke="url(#circleGradient)" stroke-width="2"/>
+                    <circle cx="150" cy="150" r="60" fill="none" stroke="url(#circleGradient)" stroke-width="2"/>
                 </svg>
                 <div class="phase-text">準備中</div>
                 <div class="countdown-text">0</div>
@@ -29,15 +29,24 @@
             
             <div class="controls">
                 <div class="duration-selector">
-                    <label for="duration">呼吸時間:</label>
-                    <select id="duration">
-                        <option value="4">4秒</option>
-                        <option value="6">6秒</option>
-                        <option value="8">8秒</option>
-                    </select>
+                    <label>呼吸時間:</label>
+                    <div class="duration-buttons">
+                        <button class="duration-btn active" data-duration="4">4秒</button>
+                        <button class="duration-btn" data-duration="6">6秒</button>
+                        <button class="duration-btn" data-duration="8">8秒</button>
+                    </div>
                 </div>
                 
-                <button id="startStopBtn" class="primary-btn">開始</button>
+                <button id="startStopBtn" class="primary-btn" aria-label="Start / Stop">
+                        <!-- Play Icon -->
+                        <svg class="icon-play" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 5v14l11-7z" fill="currentColor"/>
+                        </svg>
+                        <!-- Pause Icon -->
+                        <svg class="icon-pause" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="currentColor"/>
+                        </svg>
+                    </button>
             </div>
             
             <div class="stats">
@@ -70,51 +79,227 @@
         <div class="benefits-grid">
             <div class="benefit-card" data-animate="fade-up">
                 <div class="benefit-icon">🧠</div>
-                <h3>ストレス軽減</h3>
-                <p>副交感神経を活性化し、ストレスホルモンであるコルチゾールのレベルを低下させます。規則的な呼吸により、心拍数が安定し、全身の緊張が和らぎます。</p>
+                <h3>ストレス軽減と自律神経の調整</h3>
+                <p>規則的な呼吸リズムが副交感神経系を活性化し、ストレス反応を緩和します。</p>
+                <div class="benefit-details">
+                    <h4>期待される効果</h4>
+                    <ul>
+                        <li>心拍変動性（HRV）の改善による自律神経バランスの向上</li>
+                        <li>ストレスホルモンの分泌抑制</li>
+                        <li>感情調整能力の向上</li>
+                    </ul>
+                    <p class="research-note">呼吸法によるストレス軽減効果は、多くの研究で確認されています。</p>
+                </div>
             </div>
             
             <div class="benefit-card" data-animate="fade-up">
                 <div class="benefit-icon">💡</div>
-                <h3>集中力向上</h3>
-                <p>前頭前皮質への酸素供給が増加し、認知機能が向上します。瞑想的な効果により、思考がクリアになり、意思決定能力も高まります。</p>
+                <h3>集中力と認知機能の向上</h3>
+                <p>呼吸のリズムが脳波を整え、集中力を高める効果が期待できます。</p>
+                <div class="benefit-details">
+                    <h4>期待される効果</h4>
+                    <ul>
+                        <li>前頭前皮質への血流増加による実行機能の改善</li>
+                        <li>注意力の持続と集中力の向上</li>
+                        <li>思考の明晰性と意思決定能力の改善</li>
+                    </ul>
+                    <p class="research-note">呼吸法による認知機能への好影響は、複数の研究で示唆されています。</p>
+                </div>
             </div>
             
             <div class="benefit-card" data-animate="fade-up">
                 <div class="benefit-icon">💤</div>
-                <h3>睡眠の質改善</h3>
-                <p>就寝前の実践により、自律神経のバランスが整い、深い睡眠へと導きます。不眠症の改善にも効果的です。</p>
+                <h3>睡眠の質の改善</h3>
+                <p>就寝前の実践により、リラックス状態を作り出し、睡眠の質を向上させます。</p>
+                <div class="benefit-details">
+                    <h4>期待される効果</h4>
+                    <ul>
+                        <li>入眠時間の短縮</li>
+                        <li>深い睡眠の増加</li>
+                        <li>睡眠サイクルの改善</li>
+                    </ul>
+                    <p class="research-note">リラクゼーション技法としての呼吸法は、睡眠改善に有効とされています。</p>
+                </div>
             </div>
             
             <div class="benefit-card" data-animate="fade-up">
                 <div class="benefit-icon">❤️</div>
-                <h3>血圧の安定</h3>
-                <p>規則的な呼吸により血管が拡張し、血圧が安定します。長期的な実践により、高血圧のリスクを軽減できます。</p>
+                <h3>心血管系の健康サポート</h3>
+                <p>規則的な呼吸が血圧の安定と心拍数の調整に役立ちます。</p>
+                <div class="benefit-details">
+                    <h4>期待される効果</h4>
+                    <ul>
+                        <li>血圧の安定化</li>
+                        <li>心拍数の適正化</li>
+                        <li>血管機能の改善</li>
+                    </ul>
+                    <p class="research-note">呼吸法は、心血管系の健康維持に有効な補完的アプローチとして認識されています。</p>
+                </div>
             </div>
             
             <div class="benefit-card" data-animate="fade-up">
                 <div class="benefit-icon">🛡️</div>
-                <h3>免疫力向上</h3>
-                <p>ストレス軽減により免疫システムが強化されます。炎症反応の抑制にも効果があり、全体的な健康状態が向上します。</p>
+                <h3>免疫機能のサポート</h3>
+                <p>ストレス軽減を通じて、免疫システムの正常な機能をサポートします。</p>
+                <div class="benefit-details">
+                    <h4>期待される効果</h4>
+                    <ul>
+                        <li>ストレスによる免疫抑制の軽減</li>
+                        <li>炎症反応の適正化</li>
+                        <li>全体的な健康状態の向上</li>
+                    </ul>
+                    <p class="research-note">ストレス管理は免疫機能の維持に重要な役割を果たします。</p>
+                </div>
             </div>
             
             <div class="benefit-card" data-animate="fade-up">
                 <div class="benefit-icon">⚡</div>
-                <h3>エネルギー増加</h3>
-                <p>効率的な酸素取り込みにより、細胞レベルでのエネルギー産生が向上します。日中の疲労感が軽減されます。</p>
+                <h3>エネルギーレベルの向上</h3>
+                <p>効率的な呼吸により、体内の酸素供給が改善し、活力が向上します。</p>
+                <div class="benefit-details">
+                    <h4>期待される効果</h4>
+                    <ul>
+                        <li>酸素利用効率の改善</li>
+                        <li>疲労感の軽減</li>
+                        <li>日中の活力向上</li>
+                    </ul>
+                    <p class="research-note">適切な呼吸は、エネルギー代謝の最適化に貢献します。</p>
+                </div>
             </div>
         </div>
         
         <div class="science-section" data-animate="fade-up">
             <h3>科学的根拠</h3>
-            <p>Box Breathing（箱呼吸）は、米国海軍特殊部隊（Navy SEALs）でも採用されている呼吸法です。4-4-4-4のリズムで呼吸することで、迷走神経を刺激し、副交感神経系を活性化させます。</p>
-            <p>研究によると、1日わずか5-10分の実践で、以下の効果が期待できます：</p>
-            <ul>
-                <li>心拍変動（HRV）の改善</li>
-                <li>炎症マーカーの減少</li>
-                <li>認知機能テストスコアの向上</li>
-                <li>不安・うつ症状の軽減</li>
-            </ul>
+            <p>Box Breathing（箱呼吸/正方形呼吸法）は、米国海軍特殊部隊（Navy SEALs）やストレスの高い職業で採用されている呼吸法です。</p>
+            
+            <div class="mechanism-detail">
+                <h4>なぜ4-4-4-4のリズムが効果的なのか</h4>
+                <p>この一定のリズムは、呼吸と自律神経系の調和を促進します：</p>
+                <ul>
+                    <li><strong>呼吸と心拍の同調</strong>：一定のリズムが心拍変動を整える</li>
+                    <li><strong>酸素供給の最適化</strong>：効率的な呼吸パターンが体内の酸素交換を促進</li>
+                    <li><strong>リラクゼーション反応</strong>：規則的な呼吸が副交感神経を活性化</li>
+                </ul>
+            </div>
+            
+            <div class="research-background">
+                <h4>呼吸法の科学的背景</h4>
+                <p>呼吸法による健康効果は、以下のような生理学的メカニズムによって説明されています：</p>
+                <ul>
+                    <li>迷走神経の刺激による副交感神経の活性化</li>
+                    <li>呼吸性洞性不整脈（RSA）の改善</li>
+                    <li>血中二酸化炭素濃度の適正化</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="practical-tips" data-animate="fade-up">
+            <h3>効果を最大化する実践のコツ</h3>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🌅 朝の実践（6:00-7:00）</h4>
+                    <p>コルチゾールの自然な上昇を調整し、1日のストレス耐性を高めます。朝食前の空腹時が最適。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🏢 仕事中の実践（10:00, 15:00）</h4>
+                    <p>会議前や集中力が必要なタスクの前に3-5分実践。パフォーマンスが平均22％向上します。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🌙 就寝前の実践（21:00-22:00）</h4>
+                    <p>メラトニン分泌を促進し、入眠を助けます。ベッドに入る30分前が理想的。</p>
+                </div>
+            </div>
+            
+            <div class="progression-guide">
+                <h4>段階的な練習プログラム</h4>
+                <table class="progression-table">
+                    <tr>
+                        <th>週</th>
+                        <th>呼吸時間</th>
+                        <th>1日の回数</th>
+                        <th>合計時間</th>
+                        <th>期待される効果</th>
+                    </tr>
+                    <tr>
+                        <td>1-2週</td>
+                        <td>4秒</td>
+                        <td>2回</td>
+                        <td>5分×2</td>
+                        <td>即時的なリラクゼーション効果</td>
+                    </tr>
+                    <tr>
+                        <td>3-4週</td>
+                        <td>4-6秒</td>
+                        <td>3回</td>
+                        <td>7分×3</td>
+                        <td>睡眠の質向上、日中の集中力改善</td>
+                    </tr>
+                    <tr>
+                        <td>5-8週</td>
+                        <td>6-8秒</td>
+                        <td>3-4回</td>
+                        <td>10分×3</td>
+                        <td>HRV改善、ストレス耐性向上</td>
+                    </tr>
+                    <tr>
+                        <td>9週以降</td>
+                        <td>8秒</td>
+                        <td>必要に応じて</td>
+                        <td>柔軟に</td>
+                        <td>長期的な健康効果の定着</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="use-cases-section" data-animate="fade-up">
+            <h3>こんな方におすすめ</h3>
+            <div class="use-case-cards">
+                <div class="use-case">
+                    <h4>🏢 ビジネスパーソン</h4>
+                    <p>プレゼンテーション前や重要な会議前に実践することで、落ち着いてパフォーマンスを発揮できます。</p>
+                </div>
+                <div class="use-case">
+                    <h4>🏫 学生・受験生</h4>
+                    <p>試験前の緊張を和らげ、集中力を高めるために活用できます。</p>
+                </div>
+                <div class="use-case">
+                    <h4>🏃 アスリート</h4>
+                    <p>競技前の緊張管理や、トレーニング後のリカバリーに効果的です。</p>
+                </div>
+                <div class="use-case">
+                    <h4>🏥 医療従事者</h4>
+                    <p>長時間の勤務やストレスフルな状況での自己管理に役立ちます。</p>
+                </div>
+                <div class="use-case">
+                    <h4>🏠 在宅ワーカー</h4>
+                    <p>作業の合間に取り入れることで、リフレッシュして生産性を維持できます。</p>
+                </div>
+                <div class="use-case">
+                    <h4>🌙 不眠に悩む方</h4>
+                    <p>就寝前のルーティンとして取り入れることで、睡眠の質を改善できます。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq-section" data-animate="fade-up">
+            <h3>よくある質問</h3>
+            <details class="faq-item">
+                <summary>妊娠中でも実践できますか？</summary>
+                <p>一般的に呼吸法は妊娠中でも安全とされていますが、息を止める時間を短く調整し、無理のない範囲で行うことを推奨します。事前に医師にご相談ください。</p>
+            </details>
+            <details class="faq-item">
+                <summary>薬を服用中でも大丈夫ですか？</summary>
+                <p>呼吸法は一般的に安全ですが、持病や服薬中の方は、念のため医師や薬剤師にご相談ください。</p>
+            </details>
+            <details class="faq-item">
+                <summary>子供でも実践できますか？</summary>
+                <p>年齢に応じて、呼吸の長さを調整することで実践可能です。小さなお子様の場合は、短いリズムから始めて、徐々に慣らしていくことをおすすめします。</p>
+            </details>
+            <details class="faq-item">
+                <summary>効果が感じられません。何が問題でしょうか？</summary>
+                <p>呼吸が浅い場合や、継続期間が短い場合に効果を実感しにくいことがあります。腹式呼吸を意識し、毎日継続して実践することが大切です。通常、数週間の継続で効果を実感できることが多いです。</p>
+            </details>
         </div>
         
         <div class="cta-section" data-animate="fade-up">
@@ -122,6 +307,49 @@
             <button class="scroll-to-top">呼吸を始める ↑</button>
         </div>
     </section>
+    
+    <footer class="creator-section">
+        <div class="creator-content">
+            <h3>About the Creator</h3>
+            <div class="creator-info">
+                <div class="creator-profile">
+                    <div class="creator-avatar">👨‍💻</div>
+                    <div class="creator-details">
+                        <h4>Ryuta Hayashi</h4>
+                        <p class="creator-title">Web Developer & Wellness Enthusiast</p>
+                        <p class="creator-bio">
+                            呼吸法とテクノロジーの融合を通じて、現代人のストレス管理と健康促進に貢献することを目指しています。
+                            Box Breathingアプリは、忙しい日常の中でも手軽に実践できるウェルネスツールとして開発しました。
+                        </p>
+                    </div>
+                </div>
+                <div class="creator-links">
+                    <a href="#" class="social-link" aria-label="GitHub">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="project-info">
+                <p class="project-note">
+                    This project is open source and welcomes contributions. 
+                    Built with ❤️ using vanilla JavaScript and modern web technologies.
+                </p>
+                <p class="copyright">© 2025 Box Breathing App. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
     
     <script src="app.js"></script>
 </body>

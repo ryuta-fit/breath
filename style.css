@@ -12,12 +12,23 @@ body {
         radial-gradient(ellipse at bottom, #0f0f2e 0%, transparent 50%);
     color: #e0e0f0;
     min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 20px 0;
+}
+
+body.breathing-active {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+body.breathing-active header,
+body.breathing-active .stats,
+body.breathing-active .duration-selector label {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
 }
 
 body::before {
@@ -42,20 +53,25 @@ body::before {
 
 .container {
     width: 100%;
-    padding: 20px;
+    min-height: 100vh;
+    padding: 20px 20px 20px;
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 300;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     background: linear-gradient(135deg, #a78bfa 0%, #619bff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -64,15 +80,34 @@ h1 {
 }
 
 main {
-    padding: 30px 20px;
+    padding: 20px 20px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
 }
 
 .breathing-area {
     position: relative;
-    width: 350px;
-    height: 350px;
-    margin: 0 auto 30px;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 20px;
+    transition: all 0.5s ease;
+}
+
+body.breathing-active .breathing-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .breathing-area::before {
@@ -81,8 +116,8 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     background: radial-gradient(circle, rgba(167, 139, 250, 0.1) 0%, transparent 70%);
     border-radius: 50%;
     animation: pulse-glow 4s ease-in-out infinite;
@@ -103,6 +138,13 @@ main {
     width: 100%;
     height: 100%;
     filter: drop-shadow(0 0 20px rgba(138, 97, 255, 0.6));
+    transition: all 0.5s ease;
+}
+
+body.breathing-active .breathing-circle {
+    width: min(80vw, 80vh);
+    height: min(80vw, 80vh);
+    position: relative;
 }
 
 .breathing-circle circle {
@@ -115,15 +157,21 @@ main {
 
 .phase-text {
     position: absolute;
-    top: 45%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.125rem;
+    font-size: 0.875rem;
     font-weight: 300;
-    letter-spacing: 2px;
-    color: #a78bfa;
+    letter-spacing: 3px;
+    color: rgba(167, 139, 250, 0.6);
     text-transform: uppercase;
-    opacity: 0.8;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+body.breathing-active .phase-text {
+    font-size: 1.5rem;
+    color: rgba(167, 139, 250, 0.8);
 }
 
 .countdown-text {
@@ -131,24 +179,39 @@ main {
     top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 100;
-    color: #e0e0f0;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    color: rgba(224, 224, 240, 0.7);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+body.breathing-active .countdown-text {
+    font-size: 4rem;
+    color: rgba(224, 224, 240, 0.9);
+}
+
+body.breathing-active .phase-text {
+    opacity: 0.6;
+}
+
+body.breathing-active .countdown-text {
+    opacity: 1;
 }
 
 .controls {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .duration-selector {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     opacity: 0.9;
 }
 
@@ -156,53 +219,81 @@ main {
     font-weight: 300;
     letter-spacing: 1px;
     color: #a78bfa;
+    font-size: 0.875rem;
 }
 
-#duration {
-    padding: 8px 16px;
-    border: 1px solid rgba(167, 139, 250, 0.3);
-    border-radius: 20px;
-    font-size: 1rem;
-    background: rgba(20, 20, 40, 0.5);
-    color: #e0e0f0;
+.duration-buttons {
+    display: flex;
+    gap: 8px;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.duration-buttons:hover {
+    opacity: 1;
+}
+
+.duration-btn {
+    padding: 6px 16px;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 15px;
+    font-size: 0.875rem;
+    background: transparent;
+    color: rgba(224, 224, 240, 0.6);
     cursor: pointer;
-    transition: all 0.3s;
-    backdrop-filter: blur(10px);
+    transition: all 0.2s;
+    font-weight: 300;
+    letter-spacing: 0.5px;
 }
 
-#duration:hover {
-    border-color: rgba(167, 139, 250, 0.6);
-    background: rgba(167, 139, 250, 0.1);
+.duration-btn:hover {
+    border-color: rgba(167, 139, 250, 0.4);
+    color: rgba(224, 224, 240, 0.9);
 }
 
-#duration:focus {
+.duration-btn.active {
+    background: rgba(167, 139, 250, 0.15);
+    border-color: rgba(167, 139, 250, 0.4);
+    color: #ffffff;
+}
+
+.duration-btn:focus {
     outline: none;
-    border-color: #a78bfa;
-    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
 }
 
-#duration option {
-    background: #1a1a3e;
-    color: #e0e0f0;
+body.breathing-active .duration-buttons {
+    opacity: 0.3;
 }
 
 .primary-btn {
-    padding: 12px 48px;
-    font-size: 1.125rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    color: white;
-    background: linear-gradient(135deg, #8a61ff 0%, #619bff 100%);
-    border: none;
-    border-radius: 30px;
+    padding: 0;
+    font-size: 0;
+    background: rgba(30, 30, 50, 0.8);
+    border: 2px solid rgba(167, 139, 250, 0.3);
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s;
-    text-transform: uppercase;
-    box-shadow: 
-        0 4px 20px rgba(138, 97, 255, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     position: relative;
     overflow: hidden;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.primary-btn::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    background: transparent;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s;
 }
 
 .primary-btn::before {
@@ -219,38 +310,36 @@ main {
 }
 
 .primary-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-        0 6px 30px rgba(138, 97, 255, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: rgba(30, 30, 50, 0.9);
+    border-color: rgba(167, 139, 250, 0.5);
+    transform: scale(1.1);
 }
 
-.primary-btn:active::before {
-    width: 300px;
-    height: 300px;
+body.breathing-active .primary-btn {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
 }
 
-.primary-btn.stop {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
-}
-
-.primary-btn.stop:hover {
-    box-shadow: 
-        0 6px 30px rgba(255, 107, 107, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+body.breathing-active .primary-btn:hover {
+    transform: translateX(-50%) scale(1.1);
 }
 
 .stats {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
     position: relative;
     background: rgba(20, 20, 40, 0.4);
-    border-radius: 20px;
-    padding: 20px 15px;
+    border-radius: 15px;
+    padding: 15px 15px;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
 }
 
 .stats::before {
@@ -280,10 +369,38 @@ main {
 
 .stat-value {
     display: block;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 300;
     color: #ffffff;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.primary-btn .icon-play,
+.primary-btn .icon-pause {
+    pointer-events: none;
+    color: rgba(167, 139, 250, 0.9);
+    transition: all 0.3s ease;
+}
+
+.primary-btn:hover .icon-play,
+.primary-btn:hover .icon-pause {
+    color: #a78bfa;
+}
+
+.primary-btn .icon-play {
+    display: block;
+}
+
+.primary-btn .icon-pause {
+    display: none;
+}
+
+.primary-btn.stop .icon-play {
+    display: none;
+}
+
+.primary-btn.stop .icon-pause {
+    display: block;
 }
 
 /* パーティクルエフェクト */
@@ -308,19 +425,21 @@ main {
 @media (max-width: 480px) {
     .container {
         padding: 10px;
+        min-height: 100svh;
     }
     
     main {
-        padding: 30px 15px;
+        padding: 20px 15px;
     }
     
     .breathing-area {
-        width: 350px;
-        height: 350px;
+        width: 300px;
+        height: 300px;
     }
     
     h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
+        margin-bottom: 20px;
     }
     
     .countdown-text {
@@ -347,7 +466,7 @@ main {
 
 /* 健康効果セクション */
 .benefits-section {
-    margin-top: 100vh;
+    margin-top: 80px;
     padding: 60px 20px;
     max-width: 1200px;
     margin-left: auto;
@@ -430,7 +549,7 @@ main {
     border: 1px solid rgba(167, 139, 250, 0.2);
     border-radius: 20px;
     padding: 30px;
-    text-align: center;
+    text-align: left;
     transition: all 0.3s ease;
     opacity: 0;
     transform: translateY(30px);
@@ -451,6 +570,8 @@ main {
     font-size: 3rem;
     margin-bottom: 20px;
     filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    text-align: center;
+    display: block;
 }
 
 .benefit-card h3 {
@@ -459,6 +580,7 @@ main {
     letter-spacing: 1px;
     margin-bottom: 15px;
     color: #a78bfa;
+    text-align: center;
 }
 
 .benefit-card p {
@@ -506,19 +628,21 @@ main {
 
 .science-section li {
     position: relative;
-    padding-left: 30px;
+    padding-left: 35px;
     margin-bottom: 12px;
     font-size: 0.95rem;
     line-height: 1.6;
     color: rgba(224, 224, 240, 0.9);
+    text-align: left;
 }
 
 .science-section li::before {
     content: "✓";
     position: absolute;
-    left: 0;
+    left: 10px;
     color: #619bff;
     font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .cta-section {
@@ -575,10 +699,343 @@ main {
 .science-section { transition-delay: 0.7s; }
 .cta-section { transition-delay: 0.8s; }
 
+/* 詳細な健康効果のスタイル */
+.benefit-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+.benefit-details h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #619bff;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+.benefit-details ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.benefit-details li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgba(224, 224, 240, 0.85);
+    text-align: left;
+}
+
+.benefit-details li::before {
+    content: "•";
+    position: absolute;
+    left: 10px;
+    color: #619bff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1.4;
+}
+
+.research-note {
+    font-size: 0.825rem;
+    color: #a78bfa;
+    font-style: italic;
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(167, 139, 250, 0.1);
+    border-radius: 10px;
+    line-height: 1.5;
+}
+
+/* 研究タイムライン */
+.research-timeline {
+    margin: 30px 0;
+}
+
+.research-timeline h4 {
+    font-size: 1.25rem;
+    color: #a78bfa;
+    margin-bottom: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 80px;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-left: 2px solid rgba(167, 139, 250, 0.3);
+}
+
+.timeline-item:last-child {
+    border-left: none;
+}
+
+.timeline-item .year {
+    position: absolute;
+    left: -10px;
+    top: 0;
+    background: #1a1a3e;
+    color: #619bff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.875rem;
+    box-shadow: 0 0 20px rgba(97, 155, 255, 0.3);
+}
+
+.timeline-item p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.timeline-item strong {
+    color: #a78bfa;
+}
+
+/* メカニズム詳細 */
+.mechanism-detail {
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(30, 30, 50, 0.3);
+    border-radius: 15px;
+}
+
+.mechanism-detail h4 {
+    color: #619bff;
+    margin-bottom: 15px;
+}
+
+.mechanism-detail ul {
+    margin-top: 15px;
+}
+
+.mechanism-detail li strong {
+    color: #a78bfa;
+}
+
+/* 実践のコツセクション */
+.practical-tips {
+    background: rgba(30, 30, 50, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 40px 0;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.practical-tips.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.practical-tips h3 {
+    font-size: 1.75rem;
+    color: #a78bfa;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.tip-card {
+    background: rgba(20, 20, 40, 0.6);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(97, 155, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tip-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(97, 155, 255, 0.5);
+}
+
+.tip-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #619bff;
+}
+
+.tip-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* 進行ガイドテーブル */
+.progression-guide {
+    margin-top: 30px;
+}
+
+.progression-guide h4 {
+    font-size: 1.25rem;
+    color: #619bff;
+    margin-bottom: 20px;
+}
+
+.progression-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(20, 20, 40, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progression-table th {
+    background: rgba(167, 139, 250, 0.2);
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.progression-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+    font-size: 0.875rem;
+}
+
+.progression-table tr:last-child td {
+    border-bottom: none;
+}
+
+.progression-table tr:hover {
+    background: rgba(167, 139, 250, 0.05);
+}
+
+/* 利用例セクション */
+.use-cases-section {
+    margin: 40px 0;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.use-cases-section.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.use-cases-section h3 {
+    font-size: 1.75rem;
+    color: #a78bfa;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.use-case-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.use-case {
+    background: rgba(30, 30, 50, 0.5);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    transition: all 0.3s ease;
+}
+
+.use-case:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(167, 139, 250, 0.2);
+}
+
+.use-case h4 {
+    font-size: 1.1rem;
+    color: #619bff;
+    margin-bottom: 10px;
+}
+
+.use-case p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(224, 224, 240, 0.9);
+}
+
+/* FAQセクション */
+.faq-section {
+    margin: 40px 0;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.faq-section.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.faq-section h3 {
+    font-size: 1.75rem;
+    color: #a78bfa;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.faq-item {
+    background: rgba(30, 30, 50, 0.4);
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: rgba(167, 139, 250, 0.4);
+}
+
+.faq-item summary {
+    padding: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #619bff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: "+";
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    padding: 0 20px 20px;
+    line-height: 1.6;
+    color: rgba(224, 224, 240, 0.9);
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }
+    
     .benefits-section {
-        margin-top: 50vh;
+        margin-top: 60px;
         padding: 40px 15px;
     }
     
@@ -598,5 +1055,159 @@ main {
     
     .science-section {
         padding: 30px 20px;
+    }
+    
+    .timeline-item {
+        padding-left: 60px;
+    }
+    
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .progression-table {
+        font-size: 0.8rem;
+    }
+    
+    .progression-table th,
+    .progression-table td {
+        padding: 8px;
+    }
+    
+    .testimonial-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .practical-tips,
+    .testimonials-section,
+    .faq-section {
+        padding: 30px 20px;
+    }
+}/* 製作者セクション */
+.creator-section {
+    margin-top: 80px;
+    padding: 60px 20px;
+    background: rgba(20, 20, 40, 0.6);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+.creator-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.creator-section h3 {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, #a78bfa 0%, #619bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.creator-info {
+    margin-bottom: 40px;
+}
+
+.creator-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.creator-avatar {
+    font-size: 4rem;
+    filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.4));
+}
+
+.creator-details {
+    text-align: left;
+    max-width: 500px;
+}
+
+.creator-details h4 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #a78bfa;
+    margin-bottom: 5px;
+}
+
+.creator-title {
+    font-size: 1rem;
+    color: #619bff;
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+.creator-bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(224, 224, 240, 0.9);
+}
+
+.creator-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(167, 139, 250, 0.1);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    color: #a78bfa;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: rgba(167, 139, 250, 0.2);
+    border-color: #a78bfa;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(167, 139, 250, 0.3);
+}
+
+.social-link svg {
+    width: 24px;
+    height: 24px;
+}
+
+.project-info {
+    padding-top: 30px;
+    border-top: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+.project-note {
+    font-size: 0.9rem;
+    color: rgba(224, 224, 240, 0.8);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.copyright {
+    font-size: 0.875rem;
+    color: rgba(224, 224, 240, 0.6);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .creator-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .creator-details {
+        text-align: center;
     }
 }
