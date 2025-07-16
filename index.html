@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Breathing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Box Breathing</h1>
+        </header>
+        
+        <main>
+            <div class="breathing-area">
+                <svg class="breathing-circle" viewBox="0 0 350 350">
+                    <defs>
+                        <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#a78bfa;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#619bff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="175" cy="175" r="70" fill="none" stroke="url(#circleGradient)" stroke-width="2"/>
+                </svg>
+                <div class="phase-text">準備中</div>
+                <div class="countdown-text">0</div>
+            </div>
+            
+            <div class="controls">
+                <div class="duration-selector">
+                    <label for="duration">呼吸時間:</label>
+                    <select id="duration">
+                        <option value="4">4秒</option>
+                        <option value="6">6秒</option>
+                        <option value="8">8秒</option>
+                    </select>
+                </div>
+                
+                <button id="startStopBtn" class="primary-btn">開始</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">呼吸回数:</span>
+                    <span id="breathCount" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">練習時間:</span>
+                    <span id="practiceTime" class="stat-value">0分</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">連続日数:</span>
+                    <span id="streak" class="stat-value">🔥0</span>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <section class="benefits-section">
+        <div class="scroll-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>スクロールして効果を見る</span>
+        </div>
+        
+        <h2>Box Breathing の健康効果</h2>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card" data-animate="fade-up">
+                <div class="benefit-icon">🧠</div>
+                <h3>ストレス軽減</h3>
+                <p>副交感神経を活性化し、ストレスホルモンであるコルチゾールのレベルを低下させます。規則的な呼吸により、心拍数が安定し、全身の緊張が和らぎます。</p>
+            </div>
+            
+            <div class="benefit-card" data-animate="fade-up">
+                <div class="benefit-icon">💡</div>
+                <h3>集中力向上</h3>
+                <p>前頭前皮質への酸素供給が増加し、認知機能が向上します。瞑想的な効果により、思考がクリアになり、意思決定能力も高まります。</p>
+            </div>
+            
+            <div class="benefit-card" data-animate="fade-up">
+                <div class="benefit-icon">💤</div>
+                <h3>睡眠の質改善</h3>
+                <p>就寝前の実践により、自律神経のバランスが整い、深い睡眠へと導きます。不眠症の改善にも効果的です。</p>
+            </div>
+            
+            <div class="benefit-card" data-animate="fade-up">
+                <div class="benefit-icon">❤️</div>
+                <h3>血圧の安定</h3>
+                <p>規則的な呼吸により血管が拡張し、血圧が安定します。長期的な実践により、高血圧のリスクを軽減できます。</p>
+            </div>
+            
+            <div class="benefit-card" data-animate="fade-up">
+                <div class="benefit-icon">🛡️</div>
+                <h3>免疫力向上</h3>
+                <p>ストレス軽減により免疫システムが強化されます。炎症反応の抑制にも効果があり、全体的な健康状態が向上します。</p>
+            </div>
+            
+            <div class="benefit-card" data-animate="fade-up">
+                <div class="benefit-icon">⚡</div>
+                <h3>エネルギー増加</h3>
+                <p>効率的な酸素取り込みにより、細胞レベルでのエネルギー産生が向上します。日中の疲労感が軽減されます。</p>
+            </div>
+        </div>
+        
+        <div class="science-section" data-animate="fade-up">
+            <h3>科学的根拠</h3>
+            <p>Box Breathing（箱呼吸）は、米国海軍特殊部隊（Navy SEALs）でも採用されている呼吸法です。4-4-4-4のリズムで呼吸することで、迷走神経を刺激し、副交感神経系を活性化させます。</p>
+            <p>研究によると、1日わずか5-10分の実践で、以下の効果が期待できます：</p>
+            <ul>
+                <li>心拍変動（HRV）の改善</li>
+                <li>炎症マーカーの減少</li>
+                <li>認知機能テストスコアの向上</li>
+                <li>不安・うつ症状の軽減</li>
+            </ul>
+        </div>
+        
+        <div class="cta-section" data-animate="fade-up">
+            <p>今日から始めて、健康的な習慣を身につけましょう</p>
+            <button class="scroll-to-top">呼吸を始める ↑</button>
+        </div>
+    </section>
+    
+    <script src="app.js"></script>
+</body>
+</html>

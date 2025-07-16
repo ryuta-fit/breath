@@ -1,0 +1,602 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #0a0a0f;
+    background-image: 
+        radial-gradient(ellipse at top, #1a1a3e 0%, transparent 50%),
+        radial-gradient(ellipse at bottom, #0f0f2e 0%, transparent 50%);
+    color: #e0e0f0;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px 0;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(138, 97, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(97, 155, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.05); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.container {
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    background: linear-gradient(135deg, #a78bfa 0%, #619bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(167, 139, 250, 0.5);
+}
+
+main {
+    padding: 30px 20px;
+    position: relative;
+}
+
+.breathing-area {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    margin: 0 auto 30px;
+}
+
+.breathing-area::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(167, 139, 250, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(0.9);
+        opacity: 0.3;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+.breathing-circle {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 20px rgba(138, 97, 255, 0.6));
+}
+
+.breathing-circle circle {
+    fill: none;
+    stroke: url(#circleGradient);
+    stroke-width: 2;
+    transition: r 0.3s ease-out;
+    opacity: 0.9;
+}
+
+.phase-text {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.125rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: #a78bfa;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.countdown-text {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: 100;
+    color: #e0e0f0;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.duration-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.9;
+}
+
+.duration-selector label {
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #a78bfa;
+}
+
+#duration {
+    padding: 8px 16px;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    border-radius: 20px;
+    font-size: 1rem;
+    background: rgba(20, 20, 40, 0.5);
+    color: #e0e0f0;
+    cursor: pointer;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+#duration:hover {
+    border-color: rgba(167, 139, 250, 0.6);
+    background: rgba(167, 139, 250, 0.1);
+}
+
+#duration:focus {
+    outline: none;
+    border-color: #a78bfa;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+#duration option {
+    background: #1a1a3e;
+    color: #e0e0f0;
+}
+
+.primary-btn {
+    padding: 12px 48px;
+    font-size: 1.125rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: white;
+    background: linear-gradient(135deg, #8a61ff 0%, #619bff 100%);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    box-shadow: 
+        0 4px 20px rgba(138, 97, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 30px rgba(138, 97, 255, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.primary-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+.primary-btn.stop {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+}
+
+.primary-btn.stop:hover {
+    box-shadow: 
+        0 6px 30px rgba(255, 107, 107, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+    background: rgba(20, 20, 40, 0.4);
+    border-radius: 20px;
+    padding: 20px 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.stats::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(167, 139, 250, 0.3) 50%, transparent 100%);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #b8a0ff;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* パーティクルエフェクト */
+@keyframes particle {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
+    }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    main {
+        padding: 30px 15px;
+    }
+    
+    .breathing-area {
+        width: 350px;
+        height: 350px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .countdown-text {
+        font-size: 2.5rem;
+    }
+    
+    .stats {
+        gap: 15px;
+    }
+    
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+/* アクセシビリティ */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 健康効果セクション */
+.benefits-section {
+    margin-top: 100vh;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+}
+
+.benefits-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(167, 139, 250, 0.8);
+    animation: bounce 2s ease-in-out infinite;
+    cursor: pointer;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.scroll-indicator.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+}
+
+.scroll-indicator span {
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+.benefits-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 60px;
+    background: linear-gradient(135deg, #a78bfa 0%, #619bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.benefit-card {
+    background: rgba(30, 30, 50, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.benefit-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(167, 139, 250, 0.5);
+    box-shadow: 0 10px 40px rgba(167, 139, 250, 0.2);
+}
+
+.benefit-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+}
+
+.benefit-card h3 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    color: #a78bfa;
+}
+
+.benefit-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(224, 224, 240, 0.9);
+    font-weight: 300;
+}
+
+.science-section {
+    background: rgba(30, 30, 50, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.science-section.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.science-section h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    color: #a78bfa;
+}
+
+.science-section p {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: rgba(224, 224, 240, 0.9);
+}
+
+.science-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.science-section li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(224, 224, 240, 0.9);
+}
+
+.science-section li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #619bff;
+    font-weight: bold;
+}
+
+.cta-section {
+    text-align: center;
+    margin-top: 60px;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.cta-section.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cta-section p {
+    font-size: 1.125rem;
+    margin-bottom: 20px;
+    color: rgba(224, 224, 240, 0.9);
+    letter-spacing: 1px;
+}
+
+.scroll-to-top {
+    padding: 12px 48px;
+    font-size: 1.125rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: white;
+    background: linear-gradient(135deg, #8a61ff 0%, #619bff 100%);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    box-shadow: 
+        0 4px 20px rgba(138, 97, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 30px rgba(138, 97, 255, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* スクロールアニメーションのタイミング */
+.benefit-card:nth-child(1) { transition-delay: 0.1s; }
+.benefit-card:nth-child(2) { transition-delay: 0.2s; }
+.benefit-card:nth-child(3) { transition-delay: 0.3s; }
+.benefit-card:nth-child(4) { transition-delay: 0.4s; }
+.benefit-card:nth-child(5) { transition-delay: 0.5s; }
+.benefit-card:nth-child(6) { transition-delay: 0.6s; }
+
+.science-section { transition-delay: 0.7s; }
+.cta-section { transition-delay: 0.8s; }
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .benefits-section {
+        margin-top: 50vh;
+        padding: 40px 15px;
+    }
+    
+    .benefits-section h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .benefit-card {
+        padding: 25px;
+    }
+    
+    .science-section {
+        padding: 30px 20px;
+    }
+}
