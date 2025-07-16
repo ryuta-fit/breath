@@ -22,8 +22,13 @@ class BoxBreathing {
         this.breathCount = 0;
         this.sessionStartTime = null;
         
+        // Performance monitoring
+        this.frameCount = 0;
+        this.lastFrameTime = 0;
+        this.fps = 60;
+        
         this.phases = [
-            { name: '吸う', startScale: 1, endScale: 2 },
+            { name: '鼻から吸う', startScale: 1, endScale: 2 },
             { name: '止める', startScale: 2, endScale: 2 },
             { name: '吐く', startScale: 2, endScale: 1 },
             { name: '止める', startScale: 1, endScale: 1 }
@@ -41,10 +46,37 @@ class BoxBreathing {
     setupEventListeners() {
         this.startStopBtn.addEventListener('click', () => this.toggleBreathing());
         
+        // キーボードサポート（スペースキーで開始/停止）
+        this.startStopBtn.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                this.toggleBreathing();
+            }
+        });
+        
         this.durationButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const newDuration = parseInt(e.target.dataset.duration);
                 this.setDuration(newDuration);
+            });
+            
+            // キーボードサポート（矢印キーで選択）
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const buttons = Array.from(this.durationButtons);
+                    const currentIndex = buttons.indexOf(e.target);
+                    let newIndex;
+                    
+                    if (e.key === 'ArrowLeft') {
+                        newIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                    } else {
+                        newIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                    }
+                    
+                    buttons[newIndex].focus();
+                    buttons[newIndex].click();
+                }
             });
         });
     }
@@ -56,8 +88,10 @@ class BoxBreathing {
         this.durationButtons.forEach(btn => {
             if (parseInt(btn.dataset.duration) === duration) {
                 btn.classList.add('active');
+                btn.setAttribute('aria-checked', 'true');
             } else {
                 btn.classList.remove('active');
+                btn.setAttribute('aria-checked', 'false');
             }
         });
         
@@ -81,7 +115,9 @@ class BoxBreathing {
         this.isPaused = false;
         this.startStopBtn.textContent = '';
         this.startStopBtn.classList.add('stop');
+        this.startStopBtn.setAttribute('aria-label', '呼吸を停止する');
         document.body.classList.add('breathing-active');
+        document.querySelector('.breathing-area').classList.add('active');
         
         if (!this.sessionStartTime) {
             this.sessionStartTime = Date.now();
@@ -92,8 +128,24 @@ class BoxBreathing {
             this.pausedTime = 0;
         }
         
-        this.phaseStartTime = Date.now();
-        this.animate();
+        // 準備中の表示
+        this.phaseText.textContent = '準備中...';
+        this.countdownText.textContent = '2';
+        
+        // 2秒待ってから吐くフェーズ（フェーズ2）から開始
+        setTimeout(() => {
+            this.currentPhase = 2; // 吐くフェーズから開始
+            this.phaseStartTime = Date.now();
+            // 開始時のスケールを吐くフェーズの開始値に設定
+            const startRadius = 70 * 2; // フェーズ2の開始スケール
+            this.circle.setAttribute('r', startRadius);
+            this.animate();
+        }, 2000);
+        
+        // カウントダウン表示
+        setTimeout(() => {
+            this.countdownText.textContent = '1';
+        }, 1000);
     }
     
     stop() {
@@ -102,7 +154,9 @@ class BoxBreathing {
         this.pausedTime = Date.now();
         this.startStopBtn.textContent = '';
         this.startStopBtn.classList.remove('stop');
+        this.startStopBtn.setAttribute('aria-label', '呼吸を開始する');
         document.body.classList.remove('breathing-active');
+        document.querySelector('.breathing-area').classList.remove('active');
         
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
@@ -118,8 +172,20 @@ class BoxBreathing {
         this.saveStats();
     }
     
-    animate() {
+    animate(timestamp) {
         if (!this.isRunning) return;
+        
+        // FPS計測
+        if (this.lastFrameTime) {
+            const delta = timestamp - this.lastFrameTime;
+            this.fps = Math.round(1000 / delta);
+            
+            // デバッグモードの場合のみFPS表示（開発者向け）
+            if (window.location.hash === '#debug') {
+                console.log(`FPS: ${this.fps}`);
+            }
+        }
+        this.lastFrameTime = timestamp;
         
         const duration = this.currentDuration * 1000;
         const elapsed = Date.now() - this.phaseStartTime;
@@ -162,7 +228,7 @@ class BoxBreathing {
             }
         }
         
-        this.animationId = requestAnimationFrame(() => this.animate());
+        this.animationId = requestAnimationFrame((ts) => this.animate(ts));
     }
     
     easeInOutCubic(t) {

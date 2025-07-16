@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Box Breathing</title>
+    <title>Box Breathing - 4秒で変わる、心と体のリセット習慣</title>
+    
+    <!-- OGP Meta Tags -->
+    <meta property="og:title" content="Box Breathing - 4秒で変わる、心と体のリセット習慣" />
+    <meta property="og:description" content="科学的に証明された4-4-4-4の呼吸法で、ストレスを軽減し、集中力を高める。いつでもどこでも実践できるシンプルな瞑想法。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="breath.png" />
+    <meta property="og:locale" content="ja_JP" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Box Breathing - 4秒で変わる、心と体のリセット習慣" />
+    <meta name="twitter:description" content="科学的に証明された4-4-4-4の呼吸法で、ストレスを軽減し、集中力を高める。" />
+    <meta name="twitter:image" content="breath.png" />
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="plasma-particles"></div>
     <div class="container">
         <header>
             <h1>Box Breathing</h1>
+            <p class="subtitle">4秒で変わる、心と体のリセット習慣</p>
         </header>
         
         <main>
@@ -23,33 +39,26 @@
                     </defs>
                     <circle cx="150" cy="150" r="60" fill="none" stroke="url(#circleGradient)" stroke-width="2"/>
                 </svg>
-                <div class="phase-text">準備中</div>
-                <div class="countdown-text">0</div>
+                <button id="startStopBtn" class="primary-btn" aria-label="呼吸を開始する" role="button">
+                    <span class="icon-play"></span>
+                    <span class="icon-pause"></span>
+                </button>
+                <div class="phase-text" role="status" aria-live="polite">準備中</div>
+                <div class="countdown-text" role="status" aria-live="polite">0</div>
             </div>
             
             <div class="controls">
                 <div class="duration-selector">
-                    <label>呼吸時間:</label>
-                    <div class="duration-buttons">
-                        <button class="duration-btn active" data-duration="4">4秒</button>
-                        <button class="duration-btn" data-duration="6">6秒</button>
-                        <button class="duration-btn" data-duration="8">8秒</button>
+                    <label id="duration-label">呼吸時間:</label>
+                    <div class="duration-buttons" role="radiogroup" aria-labelledby="duration-label">
+                        <button class="duration-btn active" data-duration="4" role="radio" aria-checked="true" aria-label="4秒の呼吸時間">4秒</button>
+                        <button class="duration-btn" data-duration="6" role="radio" aria-checked="false" aria-label="6秒の呼吸時間">6秒</button>
+                        <button class="duration-btn" data-duration="8" role="radio" aria-checked="false" aria-label="8秒の呼吸時間">8秒</button>
                     </div>
                 </div>
-                
-                <button id="startStopBtn" class="primary-btn" aria-label="Start / Stop">
-                        <!-- Play Icon -->
-                        <svg class="icon-play" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 5v14l11-7z" fill="currentColor"/>
-                        </svg>
-                        <!-- Pause Icon -->
-                        <svg class="icon-pause" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" fill="currentColor"/>
-                        </svg>
-                    </button>
             </div>
             
-            <div class="stats">
+            <div class="stats" role="region" aria-label="練習統計">
                 <div class="stat-item">
                     <span class="stat-label">呼吸回数:</span>
                     <span id="breathCount" class="stat-value">0</span>
@@ -182,6 +191,20 @@
                 </ul>
             </div>
             
+            <div class="nasal-breathing-detail">
+                <h4>なぜ「鼻から吸う」ことが重要なのか</h4>
+                <p>鼻呼吸は口呼吸と比べて多くの生理学的な利点があります：</p>
+                <ul>
+                    <li><strong>空気の浄化とろ過</strong>：鼻毛と粘膜が有害な粒子やアレルゲンを除去し、清潔な空気を肺に送ります</li>
+                    <li><strong>温度と湿度の調整</strong>：鼻腔で空気が温められ加湿されることで、肺への負担を軽減します</li>
+                    <li><strong>一酸化窒素の産生</strong>：鼻腔で産生される一酸化窒素が血管を拡張し、酸素吸収効率を最大20％向上させます</li>
+                    <li><strong>呼吸のペース調整</strong>：鼻の通り道が狭いため、自然とゆっくりとした深い呼吸になります</li>
+                    <li><strong>迷走神経の活性化</strong>：鼻呼吸は迷走神経をより効果的に刺激し、リラクゼーション反応を強化します</li>
+                    <li><strong>横隔膜の活用</strong>：鼻呼吸は自然に腹式呼吸を促し、横隔膜を正しく使うことで内臓マッサージ効果も得られます</li>
+                </ul>
+                <p class="research-note">口呼吸は交感神経を刺激しやすく、ストレス反応を高める可能性があります。一方、鼻呼吸は副交感神経を優位にし、心身のリラクゼーションを促進します。</p>
+            </div>
+            
             <div class="research-background">
                 <h4>呼吸法の科学的背景</h4>
                 <p>呼吸法による健康効果は、以下のような生理学的メカニズムによって説明されています：</p>
@@ -310,13 +333,13 @@
     
     <footer class="creator-section">
         <div class="creator-content">
-            <h3>About the Creator</h3>
+            <h3>製作者</h3>
             <div class="creator-info">
                 <div class="creator-profile">
-                    <div class="creator-avatar">👨‍💻</div>
+                    <img src="profile.jpg" alt="RYUTA 高知の山奥" class="creator-avatar">
                     <div class="creator-details">
-                        <h4>Ryuta Hayashi</h4>
-                        <p class="creator-title">Web Developer & Wellness Enthusiast</p>
+                        <h4>RYUTA 高知の山奥</h4>
+                        <p class="creator-title">整体師/パーソナルトレーナー (百歳製造所 代表)、バイブコーダー</p>
                         <p class="creator-bio">
                             呼吸法とテクノロジーの融合を通じて、現代人のストレス管理と健康促進に貢献することを目指しています。
                             Box Breathingアプリは、忙しい日常の中でも手軽に実践できるウェルネスツールとして開発しました。
@@ -324,19 +347,14 @@
                     </div>
                 </div>
                 <div class="creator-links">
-                    <a href="#" class="social-link" aria-label="GitHub">
+                    <a href="https://x.com/ryuta_fit" class="social-link" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                         </svg>
                     </a>
-                    <a href="#" class="social-link" aria-label="Twitter">
+                    <a href="https://instagram.com/ryuta_fit" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
                         </svg>
                     </a>
                 </div>
@@ -346,7 +364,7 @@
                     This project is open source and welcomes contributions. 
                     Built with ❤️ using vanilla JavaScript and modern web technologies.
                 </p>
-                <p class="copyright">© 2025 Box Breathing App. All rights reserved.</p>
+                <p class="copyright">© 2025 Box Breathing App. Created by RYUTA 高知の山奥</p>
             </div>
         </div>
     </footer>
